@@ -43,16 +43,15 @@ jobs:
       - name: Verify API is responding
         run: |
           for i in {1..10}; do
-            if docker compose exec -T laravel-api curl -s http://localhost:8091/; then
-              echo "✅ API is responding"
+            if curl -s http://localhost:8091/; then
+              echo "✅ API is responding on localhost:8091"
               exit 0
             fi
             echo "API not ready yet, retrying..."
             sleep 2
           done
-          echo "❌ API did not respond" >&2
+          echo "❌ API did not respond on localhost:8091" >&2
           exit 1
-
 
       - name: Install Node.js
         uses: actions/setup-node@v4
