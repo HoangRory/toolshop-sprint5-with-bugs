@@ -1,0 +1,8 @@
+test_name,email,password,expected_status
+Đăng nhập đúng tài khoản,admin@practicesoftwaretesting.com,welcome01,200
+Sai mật khẩu,admin@practicesoftwaretesting.com,wrong123,401
+Email không tồn tại,notfound@test.com,any123,401
+Thiếu trường email,,abc123,400
+Thiếu trường password,admin@practicesoftwaretesting.com,,400
+Email sai định dạng,abc.com,abc123,400
+SQL Injection thử nghiệm,' OR '1'='1,' OR '1'='1,401

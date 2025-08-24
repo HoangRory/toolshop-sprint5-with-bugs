@@ -1,0 +1,26 @@
+test_name,first_name,last_name,address,city,state,country,postcode,phone,dob,email,password,expected_status
+Store new user với dữ liệu hợp lệ → trả về 201 Created,John,Doe,Street 1,City,State,Country,1234AA,0987654321,1990-01-01,john.doe01@example.com,ValidPass123!,201
+Store new user email để trống → 400,John,Doe,Street 1,City,State,Country,1234AA,0987654321,1990-01-01,,ValidPass123!,400
+Store new user email sai định dạng → 400,John,Doe,Street 1,City,State,Country,1234AA,0987654321,1990-01-01,invalidEmail,ValidPass123!,400
+Store new user password < 8 ký tự → 400,John,Doe,Street 1,City,State,Country,1234AA,0987654321,1990-01-01,john.doe04@example.com,Ab1!,400
+Store new user password > 40 ký tự → 400,John,Doe,Street 1,City,State,Country,1234AA,0987654321,1990-01-01,john.doe05@example.com,AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa1!,400
+Store new user first_name để trống → 400,,Doe,Street 1,City,State,Country,1234AA,0987654321,1990-01-01,john.doe06@example.com,ValidPass123!,400
+Store new user first_name > 40 ký tự → 400,AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,Doe,Street 1,City,State,Country,1234AA,0987654321,1990-01-01,john.doe07@example.com,ValidPass123!,400
+Store new user last_name để trống → 400,John,,Street 1,City,State,Country,1234AA,0987654321,1990-01-01,john.doe08@example.com,ValidPass123!,400
+Store new user last_name > 20 ký tự → 400,John,BBBBBBBBBBBBBBBBBBBBB,Street 1,City,State,Country,1234AA,0987654321,1990-01-01,john.doe09@example.com,ValidPass123!,400
+Store new user dob để trống → 400,John,Doe,Street 1,City,State,Country,1234AA,0987654321,,john.doe10@example.com,ValidPass123!,400
+Store new user dob sai định dạng → 400,John,Doe,Street 1,City,State,Country,1234AA,0987654321,01-01-1990,john.doe11@example.com,ValidPass123!,400
+Store new user dob tuổi < 18 → 400,John,Doe,Street 1,City,State,Country,1234AA,0987654321,2015-08-23,john.doe12@example.com,ValidPass123!,400
+Store new user dob tuổi > 75 → 400,John,Doe,Street 1,City,State,Country,1234AA,0987654321,1940-01-01,john.doe13@example.com,ValidPass123!,400
+Store new user address để trống → 400,John,Doe,,City,State,Country,1234AA,0987654321,1990-01-01,john.doe14@example.com,ValidPass123!,400
+Store new user address > 70 ký tự → 400,John,Doe,AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,City,State,Country,1234AA,0987654321,1990-01-01,john.doe15@example.com,ValidPass123!,400
+Store new user postcode để trống → 400,John,Doe,Street 1,City,State,Country,,0987654321,1990-01-01,john.doe16@example.com,ValidPass123!,400
+Store new user postcode > 10 ký tự → 400,John,Doe,Street 1,City,State,Country,AAAAAAAAAAA,0987654321,1990-01-01,john.doe17@example.com,ValidPass123!,400
+Store new user city để trống → 400,John,Doe,Street 1,,State,Country,1234AA,0987654321,1990-01-01,john.doe18@example.com,ValidPass123!,400
+Store new user city > 40 ký tự → 400,John,Doe,Street 1,CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,State,Country,1234AA,0987654321,1990-01-01,john.doe19@example.com,ValidPass123!,400
+Store new user state để trống → 400,John,Doe,Street 1,City,,Country,1234AA,0987654321,1990-01-01,john.doe20@example.com,ValidPass123!,400
+Store new user state > 40 ký tự → 400,John,Doe,Street 1,City,SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS,Country,1234AA,0987654321,1990-01-01,john.doe21@example.com,ValidPass123!,400
+Store new user country để trống → 400,John,Doe,Street 1,City,State,,1234AA,0987654321,1990-01-01,john.doe22@example.com,ValidPass123!,400
+Store new user phone để trống → 400,John,Doe,Street 1,City,State,Country,1234AA,,1990-01-01,john.doe23@example.com,ValidPass123!,400
+Store new user phone > 24 ký tự → 400,John,Doe,Street 1,City,State,Country,1234AA,1234567890123456789012345,1990-01-01,john.doe24@example.com,ValidPass123!,400
+Store new user phone chứa ký tự không phải số → 400,John,Doe,Street 1,City,State,Country,1234AA,123ABC,1990-01-01,john.doe25@example.com,ValidPass123!,400
