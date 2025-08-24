@@ -10,60 +10,30 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: API
-
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: toolshop_test
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: mbstring, pdo, pdo_mysql, xml, ctype, json, tokenizer, bcmath
-          coverage: none
+      - name: Set SPRINT env
+        run: echo "SPRINT=sprint5-with-bugs" >> $GITHUB_ENV
 
-      - name: Install Composer dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+      - name: Start containers
+        run: |
+          docker compose up -d --build
 
-      - name: Copy .env
-        run: cp .env.example .env
-
-      - name: Show .env
-        run: cat .env
-
-      - name: Generate application key
-        run: php artisan key:generate
-      
-      - name: Wait for MySQL
+      - name: Wait for web service (API)
         run: |
           for i in {1..30}; do
-            if mysqladmin ping -h127.0.0.1 -uroot -proot --silent; then
-              echo "MySQL is up!"
+            if curl -s http://localhost:8091/; then
+              echo "API is up!"
               break
             fi
-            echo "Waiting for MySQL..."
+            echo "Waiting for API..."
             sleep 2
           done
-
       - name: Run migrations
         run: php artisan migrate --force
+        working-directory: API
 
       # - name: Run API tests
         # run: vendor/bin/phpunit --testsuite Feature
@@ -76,10 +46,14 @@ jobs:
         run: npm install -g newman
 
       - name: Run Register API tests
-        run: newman run tests/register_collection.json --iteration-data tests/register_data.csv
+        run: newman run API/tests/register_collection.json --iteration-data tests/register_data.csv --environment API/tests/api_environment.json
 
       - name: Run Login API tests
-        run: newman run tests/login_collection.json --iteration-data tests/login_data.csv
+        run: newman run API/tests/login_collection.json --iteration-data tests/login_data.csv --environment API/tests/api_environment.json
 
       - name: Run Forgot Password API tests
-        run: newman run tests/forgot_password_collection.json --iteration-data tests/forgot_password_data.csv
+        run: newman run API/tests/forgot_password_collection.json --iteration-data tests/forgot_password_data.csv --environment API/tests/api_environment.json
+
+      - name: Stop containers
+        if: always()
+        run: docker compose down -v

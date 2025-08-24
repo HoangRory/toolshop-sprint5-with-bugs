@@ -4,9 +4,9 @@
 	"values": [
 		{
 			"key": "baseUrl",
-			"value": "https://api-with-bugs.practicesoftwaretesting.com",
+			"value": "http://localhost:8091",
 			"type": "default",
-			"description": "",
+			"description": "Base URL for API requests (production)",
 			"enabled": true
 		}
 	],
