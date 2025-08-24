@@ -43,6 +43,11 @@ services:
     depends_on:
       - laravel-api
 
+  composer:
+    image: composer:2.6.6
+    working_dir: /var/www
+    volumes:
+      - ./${SPRINT}/API:/var/www
 
   # The Database
   mariadb:
