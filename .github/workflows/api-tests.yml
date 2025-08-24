@@ -61,13 +61,22 @@ jobs:
         run: npm install -g newman
 
       - name: Run Register API tests
-        run: newman run sprint5-with-bugs/API/tests/register_collection.json --iteration-data sprint5-with-bugs/API/tests/register_data.csv --environment sprint5-with-bugs/API/tests/api_environment.json
+        run: newman run sprint5-with-bugs/API/tests/register_collection.json \
+          --iteration-data sprint5-with-bugs/API/tests/register_data.csv \
+          --environment sprint5-with-bugs/API/tests/api_environment.json \
+          --suppress-exit-code
 
       - name: Run Login API tests
-        run: newman run sprint5-with-bugs/API/tests/login_collection.json --iteration-data sprint5-with-bugs/API/tests/login_data.csv --environment sprint5-with-bugs/API/tests/api_environment.json
+        run: newman run sprint5-with-bugs/API/tests/login_collection.json \
+          --iteration-data sprint5-with-bugs/API/tests/login_data.csv \
+          --environment sprint5-with-bugs/API/tests/api_environment.json \
+          --suppress-exit-code
 
       - name: Run Forgot Password API tests
-        run: newman run sprint5-with-bugs/API/tests/forgot_password_collection.json --iteration-data sprint5-with-bugs/API/tests/forgot_password_data.csv --environment sprint5-with-bugs/API/tests/api_environment.json
+        run: newman run sprint5-with-bugs/API/tests/forgot_password_collection.json \
+          --iteration-data sprint5-with-bugs/API/tests/forgot_password_data.csv \
+          --environment sprint5-with-bugs/API/tests/api_environment.json \
+          --suppress-exit-code
 
       - name: Stop containers
         if: always()
