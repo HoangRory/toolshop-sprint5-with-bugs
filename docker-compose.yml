@@ -10,6 +10,7 @@ services:
     volumes:
       - ./${SPRINT}/API:/var/www:cached
     environment:
+      - "APP_ENV=local"
       - "PHP_OPCACHE_VALIDATE_TIMESTAMPS=1"
       - "DB_PORT=3306"
       - "DB_HOST=mariadb"
