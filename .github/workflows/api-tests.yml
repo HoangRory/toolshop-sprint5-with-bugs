@@ -43,7 +43,8 @@ jobs:
         run: docker compose run --rm composer install --no-interaction --prefer-dist --optimize-autoloader
       
       - name: Fix storage permissions
-        run: docker compose exec -T laravel-api chmod -R 777 storage bootstrap/cache
+        run: docker compose exec -T --user root laravel-api chmod -R 777 storage bootstrap/cache
+
 
       - name: Run migrations and seed
         run: docker compose exec -T -e APP_ENV=local laravel-api php artisan migrate:fresh --seed
