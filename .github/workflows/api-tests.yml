@@ -32,7 +32,8 @@ jobs:
             sleep 2
           done
       - name: Install Composer dependencies
-        run: docker compose run --rm composer
+        run: docker compose exec -T laravel-api composer install --no-interaction --prefer-dist --optimize-autoloader
+
       - name: Run migrations and seed
         run: docker compose exec laravel-api php artisan migrate:fresh --seed
 
