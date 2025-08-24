@@ -1,0 +1,683 @@
+{
+	"info": {
+		"_postman_id": "ad7d4c58-e880-495a-9ff9-022c88479c3c",
+		"name": "Toolshop API",
+		"description": "Toolshop REST API technical description\n\nContact Support:\n Name: Testsmith\n Email: info@testsmith.io",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47842403",
+		"_collection_link": "https://ho-ng-l-h-phi-s-team-528256.postman.co/workspace/Team-Workspace~6581ed96-a085-445e-8f0d-a5463f2a2f94/collection/47842403-ad7d4c58-e880-495a-9ff9-022c88479c3c?action=share&source=collection_link&creator=47842403"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "register",
+					"item": [
+						{
+							"name": "Store new user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Lấy test_name và expected_status từ dữ liệu test\r",
+											"const testName = pm.iterationData.get(\"test_name\");\r",
+											"const expectedStatus = Number(pm.iterationData.get(\"expected_status\"));\r",
+											"\r",
+											"// Kiểm tra status code\r",
+											"pm.test(`[${testName}] Status code is ${expectedStatus}`, function () {\r",
+											"    pm.response.to.have.status(expectedStatus);\r",
+											"});\r",
+											"\r",
+											"// Kiểm tra response structure cho thành công (201)\r",
+											"if (pm.response.code === 201) {\r",
+											"    pm.test(`[${testName}] Response has correct structure`, function () {\r",
+											"        const jsonData = pm.response.json();\r",
+											"        pm.expect(jsonData).to.have.property('first_name');\r",
+											"        pm.expect(jsonData).to.have.property('last_name');\r",
+											"        pm.expect(jsonData).to.have.property('email');\r",
+											"        pm.expect(jsonData).to.have.property('id');\r",
+											"    });\r",
+											"}\r",
+											"\r",
+											"// Kiểm tra response structure cho lỗi (400)\r",
+											"if (pm.response.code === 400) {\r",
+											"    pm.test(`[${testName}] Bad request response is not empty`, function () {\r",
+											"        pm.expect(pm.response.text()).to.not.be.empty;\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"first_name\": \"{{first_name}}\",\n  \"last_name\": \"{{last_name}}\",\n  \"address\": \"{{address}}\",\n  \"city\": \"{{city}}\",\n  \"state\": \"{{state}}\",\n  \"country\": \"{{country}}\",\n  \"postcode\": \"{{postcode}}\",\n  \"phone\": \"{{phone}}\",\n  \"dob\": \"{{dob}}\",\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"register"
+									]
+								},
+								"description": "Store new user"
+							},
+							"response": [
+								{
+									"name": "Successful operation",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"address\": \"Street 1\",\n  \"city\": \"City\",\n  \"state\": \"State\",\n  \"country\": \"Country\",\n  \"postcode\": \"1234AA\",\n  \"phone\": \"0987654321\",\n  \"dob\": \"1970-01-01\",\n  \"email\": \"john@doe.example\",\n  \"password\": \"super-secret\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"register"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"address\": \"Street 1\",\n  \"city\": \"City\",\n  \"state\": \"State\",\n  \"country\": \"Country\",\n  \"postcode\": \"1234AA\",\n  \"phone\": \"0987654321\",\n  \"dob\": \"1970-01-01\",\n  \"email\": \"john@doe.example\",\n  \"id\": 219\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"address\": \"Street 1\",\n  \"city\": \"City\",\n  \"state\": \"State\",\n  \"country\": \"Country\",\n  \"postcode\": \"1234AA\",\n  \"phone\": \"0987654321\",\n  \"dob\": \"1970-01-01\",\n  \"email\": \"john@doe.example\",\n  \"password\": \"super-secret\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"register"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Returns when user is not authenticated",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"address\": \"Street 1\",\n  \"city\": \"City\",\n  \"state\": \"State\",\n  \"country\": \"Country\",\n  \"postcode\": \"1234AA\",\n  \"phone\": \"0987654321\",\n  \"dob\": \"1970-01-01\",\n  \"email\": \"john@doe.example\",\n  \"password\": \"super-secret\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"register"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Unauthorized\"\n}"
+								},
+								{
+									"name": "Forbidden",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"address\": \"Street 1\",\n  \"city\": \"City\",\n  \"state\": \"State\",\n  \"country\": \"Country\",\n  \"postcode\": \"1234AA\",\n  \"phone\": \"0987654321\",\n  \"dob\": \"1970-01-01\",\n  \"email\": \"john@doe.example\",\n  \"password\": \"super-secret\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"register"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "Login customer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Lấy dữ liệu từ file CSV\r",
+											"const testName = pm.iterationData.get(\"test_name\");\r",
+											"const expectedStatus = Number(pm.iterationData.get(\"expected_status\"));\r",
+											"\r",
+											"// Kiểm tra status code\r",
+											"pm.test(`[${testName}] Status code is ${expectedStatus}`, function () {\r",
+											"    pm.response.to.have.status(expectedStatus);\r",
+											"});\r",
+											"\r",
+											"// Kiểm tra response structure dựa trên expectedStatus\r",
+											"if (expectedStatus === 200) {\r",
+											"    pm.test(`[${testName}] Response has correct token structure`, function () {\r",
+											"        const jsonData = pm.response.json();\r",
+											"        pm.expect(jsonData).to.have.property('access_token');\r",
+											"        pm.expect(jsonData.access_token).to.be.a('string').and.not.empty;\r",
+											"        pm.expect(jsonData).to.have.property('token_type');\r",
+											"        pm.expect(jsonData.token_type.toLowerCase()).to.equal('bearer');\r",
+											"        pm.expect(jsonData).to.have.property('expires_in');\r",
+											"        pm.expect(jsonData.expires_in).to.be.a('number');\r",
+											"    });\r",
+											"} else if (expectedStatus === 400) {\r",
+											"    pm.test(`[${testName}] 400 Bad Request response has 'error' property`, function () {\r",
+											"        const jsonData = pm.response.json();\r",
+											"        pm.expect(jsonData).to.have.property('error');\r",
+											"        pm.expect(jsonData.error).to.be.a('string').and.not.empty;\r",
+											"    });\r",
+											"} else if (expectedStatus === 401) {\r",
+											"    pm.test(`[${testName}] 401 Unauthorized response has 'error' property`, function () {\r",
+											"        const jsonData = pm.response.json();\r",
+											"        pm.expect(jsonData).to.have.property('error');\r",
+											"        pm.expect(jsonData.error).to.be.a('string').and.not.empty;\r",
+											"    });\r",
+											"} else {\r",
+											"    pm.test(`[${testName}] Error response has 'error' property`, function () {\r",
+											"        const jsonData = pm.response.json();\r",
+											"        pm.expect(jsonData).to.have.property('error');\r",
+											"        pm.expect(jsonData.error).to.be.a('string').and.not.empty;\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "A token",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"customer@practicesoftwaretesting.com\",\n  \"password\": \"welcome01\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"access_token\": \"super-secret-token\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 120\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "forgot-password",
+					"item": [
+						{
+							"name": "Request a new password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Log toàn bộ body của response ra Postman Console\r",
+											"console.log(`[${pm.iterationData.get(\"test_name\")}] Response body:`, pm.response.text());\r",
+											"\r",
+											"const testName = pm.iterationData.get(\"test_name\");\r",
+											"const expectedStatus = Number(pm.iterationData.get(\"expected_status\"));\r",
+											"\r",
+											"// Kiểm tra status code đúng với mong đợi\r",
+											"pm.test(`[${testName}] Status code is ${expectedStatus}`, function () {\r",
+											"    pm.response.to.have.status(expectedStatus);\r",
+											"});\r",
+											"\r",
+											"// Kiểm tra response structure cho từng status code mong đợi\r",
+											"if (expectedStatus === 200) {\r",
+											"    pm.test(`[${testName}] Response has 'success' property true`, function () {\r",
+											"        const jsonData = pm.response.json();\r",
+											"        pm.expect(jsonData).to.have.property('success', true);\r",
+											"    });\r",
+											"} else if (expectedStatus === 400 || expectedStatus === 404) {\r",
+											"    pm.test(`[${testName}] Error response is not empty`, function () {\r",
+											"        pm.expect(pm.response.text()).to.not.be.empty;\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{email}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/forgot-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"forgot-password"
+									]
+								},
+								"description": "Request a new password, it actually sets the password to `welcome01`"
+							},
+							"response": [
+								{
+									"name": "Result of the update",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"customer@practicesoftwaretesting.com\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/forgot-password",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"forgot-password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"success\": true\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"customer@practicesoftwaretesting.com\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/forgot-password",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"forgot-password"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Returns when user is not authenticated",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"customer@practicesoftwaretesting.com\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/forgot-password",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"forgot-password"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Unauthorized\"\n}"
+								},
+								{
+									"name": "Forbidden",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"customer@practicesoftwaretesting.com\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/forgot-password",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"forgot-password"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api.practicesoftwaretesting.com"
+		}
+	]
+}
