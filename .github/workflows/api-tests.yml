@@ -45,6 +45,9 @@ jobs:
       - name: Copy .env
         run: cp .env.example .env
 
+      - name: Show .env
+        run: cat .env
+
       - name: Generate application key
         run: php artisan key:generate
 
