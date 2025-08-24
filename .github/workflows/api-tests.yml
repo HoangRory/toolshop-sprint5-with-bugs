@@ -49,8 +49,19 @@ jobs:
       - name: Run migrations and seed
         run: docker compose exec -T -e APP_ENV=local laravel-api php artisan migrate:fresh --seed
 
-      # - name: Run API tests
-        # run: vendor/bin/phpunit --testsuite Feature
+      - name: Verify API is responding
+        run: |
+          for i in {1..10}; do
+            if curl -s http://localhost:8091/; then
+              echo "✅ API is responding on localhost:8091"
+              exit 0
+            fi
+            echo "API not ready yet, retrying..."
+            sleep 2
+          done
+          echo "❌ API did not respond on localhost:8091" >&2
+          exit 1
+
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
