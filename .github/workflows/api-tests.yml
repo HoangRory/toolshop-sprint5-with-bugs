@@ -65,5 +65,16 @@ jobs:
       - name: Run migrations
         run: php artisan migrate --force
 
-      - name: Run API tests
-        run: vendor/bin/phpunit --testsuite Feature
+      # - name: Run API tests
+        # run: vendor/bin/phpunit --testsuite Feature
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Postman API tests
+        run: newman run tests/api_collection.json
+        working-directory: API

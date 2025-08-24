@@ -1,0 +1,16 @@
+{
+	"id": "75d62221-36cf-43ff-bc2b-1063149e8da9",
+	"name": "New Environment",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "https://api-with-bugs.practicesoftwaretesting.com",
+			"type": "default",
+			"description": "",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-08-24T08:29:04.266Z",
+	"_postman_exported_using": "Postman/11.59.7"
+}
