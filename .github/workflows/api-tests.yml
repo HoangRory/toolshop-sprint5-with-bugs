@@ -76,10 +76,10 @@ jobs:
         run: npm install -g newman
 
       - name: Run Register API tests
-        run: newman run tests/register_collection.json --folder "register" --iteration-data tests/register_data.csv
+        run: newman run tests/register_collection.json --iteration-data tests/register_data.csv
 
       - name: Run Login API tests
-        run: newman run tests/login_collection.json --folder "login" --iteration-data tests/login_data.csv
+        run: newman run tests/login_collection.json --iteration-data tests/login_data.csv
 
       - name: Run Forgot Password API tests
-        run: newman run tests/forgot_password_collection.json --folder "forgot password" --iteration-data tests/forgot_password_data.csv
+        run: newman run tests/forgot_password_collection.json --iteration-data tests/forgot_password_data.csv
