@@ -28,17 +28,7 @@ jobs:
       - name: Start containers
         run: |
           docker compose up -d --build
-
-      - name: Wait for web service (API)
-        run: |
-          for i in {1..30}; do
-            if curl -s http://localhost:8091/; then
-              echo "API is up!"
-              break
-            fi
-            echo "Waiting for API..."
-            sleep 2
-          done
+          
       - name: Install Composer dependencies
         run: docker compose run --rm composer install --no-interaction --prefer-dist --optimize-autoloader
       
