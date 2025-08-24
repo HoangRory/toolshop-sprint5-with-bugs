@@ -31,9 +31,8 @@ jobs:
             echo "Waiting for API..."
             sleep 2
           done
-      - name: Run migrations
-        run: php artisan migrate --force
-        working-directory: API
+      - name: Run migrations and seed
+        run: docker compose exec laravel-api php artisan migrate:fresh --seed
 
       # - name: Run API tests
         # run: vendor/bin/phpunit --testsuite Feature
